@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
+        <ToggleButton
+            android:text="ToggleButton"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggleButton"
+            android:textOff="Long/Lat"
+            android:textOn="Grid Ref"/>
+
+        <EditText android:id="@+id/enter_long_lat"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:onClick="sendCoords" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorMessage"
+        android:textColor="#FF0000"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/linearLayout" />
+
+    <Button
+        android:text="LIST"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:layout_below="@+id/errorMessage"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="71dp"
+        android:onClick="list"/>
+
+</RelativeLayout>
