@@ -1,0 +1,4 @@
+1. Change main activity so all waypoints are listed on the opening page (and remove the list waypoints activity)
+2. Remove routes, until I find a better way to do them (probably a table per route)
+3. Sort issue with elevation gain
+4. Improve README.md
