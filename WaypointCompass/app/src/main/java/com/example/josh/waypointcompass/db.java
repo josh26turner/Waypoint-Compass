@@ -28,9 +28,7 @@ public class db extends SQLiteOpenHelper
                 "ID             INT         PRIMARY KEY, " +
                 "name           VARCHAR(30) UNIQUE NOT NULL, " +
                 "longitude      DOUBLE      NOT NULL, " +
-                "latitude       DOUBLE      NOT NULL, " +
-                "route          VARCHAR(30)," +
-                "routePosition  INT" +
+                "latitude       DOUBLE      NOT NULL" +
                 ")";
 
         db.execSQL(wpCreate);
@@ -41,8 +39,7 @@ public class db extends SQLiteOpenHelper
     {
         if (oldVersion!=newVersion)
         {
-            db.execSQL("DROP IF EXISTS wayPoints");
-            db.execSQL("DROP IF EXISTS routes");
+            db.execSQL("DROP TABLE IF EXISTS wayPoints");
             onCreate(db);
         }
     }
@@ -56,8 +53,6 @@ public class db extends SQLiteOpenHelper
         values.put("name",wayPoint.name);
         values.put("longitude",wayPoint.longitude);
         values.put("latitude",wayPoint.latitude);
-        values.put("route",wayPoint.routeName);
-        values.put("routePosition",wayPoint.routePosition);
 
         try
         {
@@ -94,42 +89,6 @@ public class db extends SQLiteOpenHelper
                     newWayPoint.name = cursor.getString(cursor.getColumnIndex("name"));
                     newWayPoint.latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
                     newWayPoint.longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
-                    newWayPoint.routeName = cursor.getString(cursor.getColumnIndex("route"));
-                    newWayPoint.routePosition = cursor.getInt(cursor.getColumnIndex("routePosition"));
-
-                    wayPoints.add(newWayPoint);
-                }while (cursor.moveToNext());
-            }
-        }
-        catch (Exception e)
-        {
-            Log.d(TAG,"Error while trying to get waypoints from database");
-        }
-        finally
-        {
-            if (cursor != null && !cursor.isClosed()) cursor.close();
-        }
-        return wayPoints;
-    }
-    public List<wayPoint> getWayPoints(String routeName)
-    {
-        List<wayPoint> wayPoints = new ArrayList<>();
-
-        String selectQuery = "SELECT * FROM wayPoints WHERE route == ? ORDER BY routePosition ASC";
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(routeName)});
-
-        try
-        {
-            if (cursor.moveToFirst())
-            {
-                do
-                {
-                    wayPoint newWayPoint = new wayPoint();
-                    newWayPoint.name = cursor.getString(cursor.getColumnIndex("name"));
-                    newWayPoint.latitude = cursor.getDouble(cursor.getColumnIndex("latitude"));
-                    newWayPoint.longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
-                    newWayPoint.routePosition = cursor.getInt(cursor.getColumnIndex("routePosition"));
 
                     wayPoints.add(newWayPoint);
                 }while (cursor.moveToNext());

@@ -21,8 +21,6 @@ public class addWayPoint extends AppCompatActivity {
 
     private EditText nameEditor;
     private EditText coordEditor;
-    private EditText routeNameEditor;
-    private EditText positionEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +29,14 @@ public class addWayPoint extends AppCompatActivity {
 
         nameEditor = (EditText) findViewById(R.id.nameEditor);
         coordEditor = (EditText) findViewById(R.id.coordEditor);
-        routeNameEditor = (EditText) findViewById(R.id.routeNameEditor);
-        positionEditor = (EditText) findViewById(R.id.positionEditor);
 
         Intent i = getIntent();
         oldWayPoint =(wayPoint) i.getSerializableExtra("wp");
 
-        if (oldWayPoint != null)
-        {
+        if (oldWayPoint != null) {
             update = true;
             nameEditor.setText(oldWayPoint.name);
             coordEditor.setText(oldWayPoint.latitude+", "+oldWayPoint.longitude);
-            routeNameEditor.setText(oldWayPoint.routeName);
-            positionEditor.setText(""+oldWayPoint.routePosition);
         }
 
         ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);
@@ -55,8 +48,7 @@ public class addWayPoint extends AppCompatActivity {
 
     }
 
-    public void done (View view)
-    {
+    public void done (View view) {
         coordinateCheck c = new coordinateCheck();
         String name = nameEditor.getText().toString();
         String coord = coordEditor.getText().toString().toUpperCase();
@@ -65,15 +57,7 @@ public class addWayPoint extends AppCompatActivity {
 
         wayPoint newWayPoint = new wayPoint();
 
-        if (!name.equals("")) newWayPoint.name = name;
-        newWayPoint.routeName = routeNameEditor.getText().toString();
-        try
-        {
-            newWayPoint.routePosition = Integer.parseInt(0+positionEditor.getText().toString());
-        } catch (NumberFormatException e)
-        {
-            e.printStackTrace();
-        }
+        if (!name.equals(""))  newWayPoint.name = name;
 
         if (GridRef)
         {

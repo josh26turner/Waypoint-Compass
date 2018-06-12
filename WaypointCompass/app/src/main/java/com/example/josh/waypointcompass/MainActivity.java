@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity
 
     public void sendCoords(View view)//Is called when the confirm button is pressed
     {
-        coordinateCheck c = new coordinateCheck();
+        coordinateCheck coordinateCheck = new coordinateCheck();
 
-        TextView textView = (TextView) findViewById(R.id.errorMessage);//Setting the
+        TextView textView = (TextView) findViewById(R.id.errorMessage);
 
         Intent intent = new Intent(this, Display.class);
         EditText editText = (EditText) findViewById(R.id.enter_long_lat);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         String message = editText.getText().toString().toUpperCase().replace(" ","");//Getting the text from the text field
         if (GridRef)//If the input type is a OS Grid Reference
         {
-            if (c.OSCheck(message))//If the input is a legitimate OS Grid Reference
+            if (coordinateCheck.OSCheck(message))//If the input is a legitimate OS Grid Reference
             {
                 OSRef r = new OSRef(message);
                 LatLng l = r.toLatLng();//Converting the grid reference to a latitude and longitude
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity
         }
         else//If the input ype is a longitude and latitude coordinate
         {
-            message = c.coordFormat(message);//Putting the coordinate in the correct format
-            if (c.coordCheck(message))//If the coordinates are legitimate coordinates
+            message = coordinateCheck.coordFormat(message);//Putting the coordinate in the correct format
+            if (coordinateCheck.coordCheck(message))//If the coordinates are legitimate coordinates
             {
                 intent.putExtra("coords", message);//Adding the coordinates to the bundle being sent to the display activity
                 startActivity(intent);//starting the display activity and sending the bundle

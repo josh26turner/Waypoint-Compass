@@ -38,7 +38,7 @@ import java.net.URL;
 
 public class Display extends AppCompatActivity implements SensorEventListener
 {
-    private TextView t;
+    private TextView text;
     private ImageView arrow;
     private ImageView compass;
 
@@ -54,9 +54,6 @@ public class Display extends AppCompatActivity implements SensorEventListener
     private double alti = 0;
     private String elevOrAlt;
 
-    private int position=0;
-    private double [] coords;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -66,28 +63,17 @@ public class Display extends AppCompatActivity implements SensorEventListener
         final double [] coord = new double [2];
         final boolean route;
 
-        t = (TextView) findViewById(R.id.textView);
-        t.setText("Searching for GPS signal");
+        text = (TextView) findViewById(R.id.textView);
+        text.setText("Searching for GPS signal");
         compass = (ImageView) findViewById(R.id.compass);
         arrow = (ImageView) findViewById(R.id.arrow);
 
         Intent intent = getIntent();
-        if (intent.getBooleanExtra("route",false))
-        {
-            route = true;
-            coords = intent.getDoubleArrayExtra("routeWayPoints");
-            coord[0] = coords[0];
-            coord[1] = coords[1];
-        }
-        else
-        {
-            route = false;
-            String longlat = intent.getStringExtra("coords");
-            longlat = longlat.replaceAll(" ","");
-            String [] longilati = longlat.split(",");
-            coord[0] = Double.parseDouble(longilati[0]);
-            coord[1] = Double.parseDouble(longilati[1]);
-        }
+        String longlat = intent.getStringExtra("coords");
+        longlat = longlat.replaceAll(" ","");
+        String [] longilati = longlat.split(",");
+        coord[0] = Double.parseDouble(longilati[0]);
+        coord[1] = Double.parseDouble(longilati[1]);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -105,12 +91,6 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
                 if (distance <= 0.01)
                 {
-                    if (route)
-                    {
-                        position+=2;
-                        coord[0] = coords[position];
-                        coord[1] = coords[position+1];
-                    }
                     relativeLayout.setBackgroundColor(Color.GREEN);
                 }
                 else if (distance < 0.1) relativeLayout.setBackgroundColor(Color.YELLOW);
@@ -118,16 +98,16 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
                 bearing = findBearingTo(location.getLatitude(), location.getLongitude(), coord[0], coord[1]);
 
-                t.setText("Distance: " + distance + "km\n Bearing: " +(int) bearing+"°");
+                text.setText("Distance: " + distance + "km\n Bearing: " +(int) bearing+"°");
 
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                boolean connection=networkInfo!=null&&networkInfo.isConnected();
+                boolean connection = (networkInfo != null) && (networkInfo.isConnected());
                 if (connection)
                 {
                     elevOrAlt = "elev";
                     new altitudeFinder().execute(coord[0], coord[1]);
                     elevOrAlt = "alt";
-                    t.append("\n Altitude gain: "+(int)round(elev - alti,0)+"m");
+                    text.append("\n Altitude gain: "+(int)round(elev - alti,0)+"m");
                 }
             }
 
@@ -288,9 +268,9 @@ public class Display extends AppCompatActivity implements SensorEventListener
                 {
                     if (inputLine.contains("elevation"))
                     {
-                        for (int i = 23;;i++)
-                        {
-                            if (inputLine.charAt(i)!=',') elevation = elevation + "" + inputLine.charAt(i);
+                        for (int i = 23;;i++) {
+                            if (inputLine.charAt(i) != ',')
+                                elevation = elevation + "" + inputLine.charAt(i);
                             else break OUT;
                         }
                     }

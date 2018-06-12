@@ -23,13 +23,11 @@ public class dbListing extends AppCompatActivity {
         setContentView(R.layout.activity_db_listing);
 
         updateWayPointTable();
-        updateRouteTable();
     }
 
     public void updateTable(View v)//When the refresh button is pressed this function is called
     {
         updateWayPointTable();
-        updateRouteTable();
     }
 
     private void updateWayPointTable ()
@@ -51,8 +49,7 @@ public class dbListing extends AppCompatActivity {
             textView.setTextColor(Color.BLACK);
             textView.setText(wayPointList.get(i).name+": "+
                     round(wayPointList.get(i).latitude,2)+", "+
-                    round(wayPointList.get(i).longitude,2)+":"+
-                    wayPointList.get(i).routePosition);
+                    round(wayPointList.get(i).longitude,2));
             row.addView(textView);
 
             final Button update = new Button(this);
@@ -74,7 +71,6 @@ public class dbListing extends AppCompatActivity {
                 {
                     database.delete(wayPointList.get(finalI).name);
                     updateWayPointTable();
-                    updateRouteTable();
                 }
             });
             row.addView(delete);
@@ -94,71 +90,11 @@ public class dbListing extends AppCompatActivity {
         }
     }
 
-    public void updateRouteTable()
-    {
-
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.routesTable);
-        tableLayout.removeAllViews();
-
-        final List<String> routeNames = new ArrayList<>();
-        for (int i = 0;i<wayPointList.size();i++)
-        {
-            if (!(routeNames.contains(wayPointList.get(i).routeName)))
-            {
-                routeNames.add(wayPointList.get(i).routeName);
-            }
-        }
-
-        for (int i = 0;i<routeNames.size();i++)
-        {
-            if (!routeNames.get(i).equals("")&&!routeNames.get(i).equals(null))
-            {
-                TableRow row = new TableRow(this);
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                row.setLayoutParams(lp);
-
-                final int finalI = i;
-
-                TextView textView = new TextView(this);
-                textView.setTextColor(Color.BLACK);
-                textView.setText(routeNames.get(i));
-                row.addView(textView);
-
-                final Button select = new Button(this);
-                select.setText("SELECT");
-                select.setTextSize(14);
-                select.setOnClickListener(new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        selectRoute(routeNames.get(finalI));
-                    }
-                });
-                row.addView(select);
-
-                tableLayout.addView(row);
-            }
-        }
-    }
-
     public void select (double lat, double lon)
     {
         Intent display = new Intent(this, Display.class);
         display.putExtra("coords",lat+","+lon);
         startActivity(display);
-    }
-
-    private void selectRoute(String routeName)
-    {
-        List<wayPoint> wayPointList = database.getWayPoints(routeName);
-        double [] coords = new double[wayPointList.size()*2];
-        for (int i = 0;i<wayPointList.size();i+=2)
-        {
-            coords[i] = wayPointList.get(i).latitude;
-            coords[i+1] = wayPointList.get(i).longitude;
-        }
-        Intent i = new Intent(this, Display.class);
-        i.putExtra("route",true);
-        i.putExtra("routeWayPoints",coords);
-        startActivity(i);
     }
 
     private void updateWP(wayPoint wp)
