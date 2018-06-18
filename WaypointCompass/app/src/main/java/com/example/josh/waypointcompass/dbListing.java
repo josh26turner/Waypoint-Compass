@@ -52,6 +52,8 @@ public class dbListing extends AppCompatActivity {
                     round(wayPointList.get(i).longitude,2));
             row.addView(textView);
 
+            TableRow buttons = new TableRow(this);
+
             final Button update = new Button(this);
             update.setText("UPDATE");
             update.setTextSize(14);
@@ -61,7 +63,7 @@ public class dbListing extends AppCompatActivity {
                     updateWP(wayPointList.get(finalI));
                 }
             });
-            row.addView(update);
+            buttons.addView(update);
 
             final Button delete = new Button(this);
             delete.setText("DELETE");
@@ -73,7 +75,7 @@ public class dbListing extends AppCompatActivity {
                     updateWayPointTable();
                 }
             });
-            row.addView(delete);
+            buttons.addView(delete);
 
             final Button select = new Button(this);
             select.setText("SELECT");
@@ -84,9 +86,10 @@ public class dbListing extends AppCompatActivity {
                     select(wayPointList.get(finalI).latitude,wayPointList.get(finalI).longitude);
                 }
             });
-            row.addView(select);
+            buttons.addView(select);
 
             tableLayout.addView(row);
+            tableLayout.addView(buttons);
         }
     }
 

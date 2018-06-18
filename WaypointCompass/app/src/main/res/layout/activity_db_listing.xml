@@ -10,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.josh.waypointcompass.dbListing">
 
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/addWayPoint"
-        android:id="@+id/wayPointTable">
-    </TableLayout>
-
     <Button
         android:text="ADD"
         android:layout_width="wrap_content"
@@ -49,5 +41,25 @@
         android:layout_toStartOf="@+id/addWayPoint"
         android:onClick="updateTable"
         android:text="Refresh Table" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="447dp"
+        android:layout_below="@+id/addWayPoint"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:id="@+id/wayPointTable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/addWayPoint"
+                android:layout_centerHorizontal="true"></TableLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

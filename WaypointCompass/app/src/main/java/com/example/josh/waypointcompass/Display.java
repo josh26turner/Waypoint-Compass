@@ -51,8 +51,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
     private double bearing=0;
 
     private double elev = 0;
-    private double alti = 0;
-    private String elevOrAlt;
+    private boolean gotElevation = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -61,7 +60,6 @@ public class Display extends AppCompatActivity implements SensorEventListener
         setContentView(R.layout.activity_display);
 
         final double [] coord = new double [2];
-        final boolean route;
 
         text = (TextView) findViewById(R.id.textView);
         text.setText("Searching for GPS signal");
@@ -79,6 +77,10 @@ public class Display extends AppCompatActivity implements SensorEventListener
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (!(networkInfo!=null&&networkInfo.isConnected())) Toast.makeText(Display.this, "No connection available", Toast.LENGTH_LONG).show();
+        else {
+            gotElevation = true;
+            new altitudeFinder().execute(coord[0], coord[1]);
+        }
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -89,10 +91,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
                 RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl);
                 double distance = findDistanceTo(location.getLatitude(), location.getLongitude(), coord[0], coord[1]);
 
-                if (distance <= 0.01)
-                {
-                    relativeLayout.setBackgroundColor(Color.GREEN);
-                }
+                if (distance <= 0.01) relativeLayout.setBackgroundColor(Color.GREEN);
                 else if (distance < 0.1) relativeLayout.setBackgroundColor(Color.YELLOW);
                 else relativeLayout.setBackgroundColor(Color.WHITE);
 
@@ -100,15 +99,11 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
                 text.setText("Distance: " + distance + "km\n Bearing: " +(int) bearing+"°");
 
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                boolean connection = (networkInfo != null) && (networkInfo.isConnected());
-                if (connection)
-                {
-                    elevOrAlt = "elev";
-                    new altitudeFinder().execute(coord[0], coord[1]);
-                    elevOrAlt = "alt";
-                    text.append("\n Altitude gain: "+(int)round(elev - alti,0)+"m");
+                if (gotElevation) {
+                    double alti = location.getAltitude();
+                    text.append("\n Altitude gain: " + (int) round(elev - alti, 0) + "m");
                 }
+
             }
 
             @Override
@@ -256,6 +251,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
         @Override
         protected Double doInBackground(Double... doubles) {
             String elevation="";
+
             try
             {
                 URL alt = new URL("https://maps.googleapis.com/maps/api/elevation/json?locations="+ doubles[0]+","+doubles[1]);
@@ -277,8 +273,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
                 }
                 double e = round(Double.parseDouble(elevation),1);
                 e/=10;
-                if (elevOrAlt.equals("elev")) elev = e;
-                else alti = e;
+                elev = e;
                 return e;
             }
             catch (MalformedURLException e) {}
