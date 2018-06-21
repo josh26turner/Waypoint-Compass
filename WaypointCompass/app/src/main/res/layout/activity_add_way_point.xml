@@ -46,14 +46,14 @@
         android:layout_marginTop="43dp" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
         android:id="@+id/coordEditor"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/coordText"
         android:layout_alignBottom="@+id/coordText"
+        android:layout_toEndOf="@+id/coordText"
         android:layout_toRightOf="@+id/coordText"
-        android:layout_toEndOf="@+id/coordText" />
+        android:ems="10" />
 
     <ToggleButton
         android:text="ToggleButton"
@@ -86,5 +86,14 @@
         android:onClick="done"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/useLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/coordEditor"
+        android:onClick="useCurrentLocation"
+        android:text="Current\nLocation" />
 
 </RelativeLayout>
