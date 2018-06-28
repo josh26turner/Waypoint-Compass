@@ -24,6 +24,13 @@ public class dbListing extends AppCompatActivity {
         updateWayPointTable();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        updateWayPointTable();
+    }
+
     public void updateTable(View v)//When the refresh button is pressed this function is called
     {
         updateWayPointTable();

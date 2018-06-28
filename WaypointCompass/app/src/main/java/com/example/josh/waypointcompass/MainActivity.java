@@ -1,13 +1,21 @@
 package com.example.josh.waypointcompass;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.support.v7.widget.Toolbar;
 
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.OSRef;
@@ -15,6 +23,8 @@ import uk.me.jstott.jcoord.OSRef;
 public class MainActivity extends AppCompatActivity
 {
     private boolean GridRef;
+    private com.example.josh.waypointcompass.MainActivity thisClass = this;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,7 +32,31 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.toggleButton);//Connects the button
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        drawerLayout.closeDrawers();
+                        Intent i = new Intent(thisClass,dbListing.class);
+                        startActivity(i);
+
+                        return true;
+                    }
+                }
+        );
+
+        ToggleButton toggle = findViewById(R.id.toggleButton);//Connects the button
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()//When the button is clicked the function gets called.
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -32,14 +66,24 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void sendCoords(View view)//Is called when the confirm button is pressed
     {
         coordinateCheck coordinateCheck = new coordinateCheck();
 
-        TextView textView = (TextView) findViewById(R.id.errorMessage);
+        TextView textView = findViewById(R.id.errorMessage);
 
         Intent intent = new Intent(this, Display.class);
-        EditText editText = (EditText) findViewById(R.id.enter_long_lat);
+        EditText editText = findViewById(R.id.enter_long_lat);
 
         String message = editText.getText().toString().toUpperCase().replace(" ","");//Getting the text from the text field
         if (GridRef)//If the input type is a OS Grid Reference
