@@ -5,4 +5,4 @@ I have placed the .apk for the app in the top level, usually generated from crea
 
 This is the first app I have made and there are bound to be many bad techniques, I wrote it about a year ago and I will improve it.
 
-The apk can be downloaded on mobile [here] (https://github.com/josh26turner/Waypoint-Compass/raw/master/WaypointCompass.apk "APK download")
+The apk can be downloaded on mobile [here](https://github.com/josh26turner/Waypoint-Compass/raw/master/WaypointCompass.apk "APK download")
