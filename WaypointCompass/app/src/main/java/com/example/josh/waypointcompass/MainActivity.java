@@ -96,11 +96,8 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("coords", message);//Adding the coordinates to the bundle being sent to the display activity
                 startActivity(intent);//starting the display activity and sending the bundle
             }
-            else textView.setText("\nPlease enter a valid OS Grid Reference"//If the text doesn't pass the check then this message is displayed to the user
-                    + "\nIn the form: RRXXXYYY"
-                    + "\nWhere RR is the map reference(2 letters in top right of map)"
-                    + "\nXXX is the eastings"
-                    + "\nYYY is the northings");
+            //If the text doesn't pass the check then this message is displayed to the user
+            else textView.setText("\nPlease enter a valid OS Grid Reference\nIn the form: RRXXXYYY\nWhere RR is the map reference(2 letters in top right of map)\nXXX is the eastings\nYYY is the northings");
         }
         else//If the input ype is a longitude and latitude coordinate
         {

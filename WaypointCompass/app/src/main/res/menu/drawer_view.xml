@@ -4,6 +4,7 @@
         <item
             android:id="@+id/list"
             android:title="@string/list"
-            android:icon="@mipmap/ic_launcher"/>
+            android:icon="@mipmap/ic_launcher"
+            android:checkable="false"/>
     </group>
 </menu>
