@@ -33,8 +33,8 @@ public class addWayPoint extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_way_point);
 
-        nameEditor = (EditText) findViewById(R.id.nameEditor);
-        coordEditor = (EditText) findViewById(R.id.coordEditor);
+        nameEditor = findViewById(R.id.nameEditor);
+        coordEditor = findViewById(R.id.coordEditor);
 
         Intent i = getIntent();
         oldWayPoint =(wayPoint) i.getSerializableExtra("wp");
