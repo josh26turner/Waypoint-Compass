@@ -19,14 +19,12 @@ import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.OSRef;
 
 public class addWayPoint extends AppCompatActivity {
-    private boolean GridRef;
-    private boolean update = false;
+    private boolean GridRef, update = false;
 
     private db database = new db(this);
     private wayPoint oldWayPoint;
 
-    private EditText nameEditor;
-    private EditText coordEditor;
+    private EditText nameEditor, coordEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

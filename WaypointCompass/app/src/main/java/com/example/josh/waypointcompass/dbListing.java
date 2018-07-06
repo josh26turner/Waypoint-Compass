@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,14 +32,9 @@ public class dbListing extends AppCompatActivity {
         updateWayPointTable();
     }
 
-    public void updateTable(View v)//When the refresh button is pressed this function is called
-    {
-        updateWayPointTable();
-    }
-
     private void updateWayPointTable ()
     {
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.wayPointTable);//Connecting to the table
+        TableLayout tableLayout = findViewById(R.id.wayPointTable);//Connecting to the table
         tableLayout.removeAllViews();
 
         wayPointList = database.getAllWayPoints();//Getting all the way points saved in the database
@@ -46,34 +42,42 @@ public class dbListing extends AppCompatActivity {
         for (int i = 0;i<wayPointList.size();i++)
         {
             TableRow row = new TableRow(this);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
             row.setLayoutParams(lp);
 
             final int finalI = i;
 
             TextView textView = new TextView(this);
             textView.setTextColor(Color.BLACK);
-            textView.setText(wayPointList.get(i).name+": "+
-                    round(wayPointList.get(i).latitude,2)+", "+
-                    round(wayPointList.get(i).longitude,2));
+            textView.setTextSize(24);
+            textView.setText(wayPointList.get(i).name);
             row.addView(textView);
 
-            TableRow buttons = new TableRow(this);
-
-            final Button update = new Button(this);
-            update.setText("UPDATE");
-            update.setTextSize(14);
+            final ImageButton update = new ImageButton(this);
+            update.setImageResource(R.drawable.ic_update);
+            update.setBackground(null);
             update.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v)
                 {
                     updateWP(wayPointList.get(finalI));
                 }
             });
-            buttons.addView(update);
+            row.addView(update);
 
-            final Button delete = new Button(this);
-            delete.setText("DELETE");
-            delete.setTextSize(14);
+            final ImageButton select = new ImageButton(this);
+            select.setImageResource(R.drawable.ic_navigation_24dp);
+            select.setBackground(null);
+            select.setOnClickListener(new Button.OnClickListener() {
+                public void onClick(View v)
+                {
+                    select(wayPointList.get(finalI).latitude,wayPointList.get(finalI).longitude);
+                }
+            });
+            row.addView(select);
+
+            final ImageButton delete = new ImageButton(this);
+            delete.setImageResource(R.drawable.ic_delete);
+            delete.setBackground(null);
             delete.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v)
                 {
@@ -81,21 +85,9 @@ public class dbListing extends AppCompatActivity {
                     updateWayPointTable();
                 }
             });
-            buttons.addView(delete);
-
-            final Button select = new Button(this);
-            select.setText("SELECT");
-            select.setTextSize(14);
-            select.setOnClickListener(new Button.OnClickListener() {
-                public void onClick(View v)
-                {
-                    select(wayPointList.get(finalI).latitude,wayPointList.get(finalI).longitude);
-                }
-            });
-            buttons.addView(select);
+            row.addView(delete);
 
             tableLayout.addView(row);
-            tableLayout.addView(buttons);
         }
     }
 
