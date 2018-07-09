@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static android.content.ContentValues.TAG;
 
 public class Display extends AppCompatActivity implements SensorEventListener
 {
@@ -50,8 +52,12 @@ public class Display extends AppCompatActivity implements SensorEventListener
     private float c_current = 0;
     private double bearing=0;
 
-    private double elev = 0;
-    private boolean gotElevation = false;
+    private double userElevation = 0;
+    private double destinationElevation = 0;
+    private boolean gotUserElevation = false;
+    private boolean everGotUserElevation = false;
+    private boolean gotDestinationElevation = false;
+    private boolean gettingDestination = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -61,10 +67,10 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
         final double [] coord = new double [2];
 
-        text = (TextView) findViewById(R.id.textView);
+        text = findViewById(R.id.textView);
         text.setText("Searching for GPS signal");
-        compass = (ImageView) findViewById(R.id.compass);
-        arrow = (ImageView) findViewById(R.id.arrow);
+        compass = findViewById(R.id.compass);
+        arrow = findViewById(R.id.arrow);
 
         Intent intent = getIntent();
         String longlat = intent.getStringExtra("coords");
@@ -75,20 +81,17 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (!(networkInfo!=null&&networkInfo.isConnected())) Toast.makeText(Display.this, "No connection available", Toast.LENGTH_LONG).show();
-        else {
-            gotElevation = true;
-            new altitudeFinder().execute(coord[0], coord[1]);
-        }
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
 
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location)
             {
-                RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl);
+
+                RelativeLayout relativeLayout = findViewById(R.id.rl);
                 double distance = findDistanceTo(location.getLatitude(), location.getLongitude(), coord[0], coord[1]);
 
                 if (distance <= 0.01) relativeLayout.setBackgroundColor(Color.GREEN);
@@ -99,11 +102,24 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
                 text.setText("Distance: " + distance + "km\n Bearing: " +(int) bearing+"°");
 
-                if (gotElevation) {
-                    double alti = location.getAltitude();
-                    text.append("\n Altitude gain: " + (int) round(elev - alti, 0) + "m");
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if (!(networkInfo!=null&&networkInfo.isConnected())) Toast.makeText(Display.this, "No connection available", Toast.LENGTH_LONG).show();
+                else {
+                    if (!gotDestinationElevation) {
+                        gettingDestination = true;
+                        new altitudeFinder().execute(coord[0], coord[1]);
+                    }
+
+                    if (gotDestinationElevation && !gotUserElevation) {
+                        gettingDestination = false;
+                        new altitudeFinder().execute(location.getLatitude(),location.getLongitude());
+                    }
+
                 }
 
+                if (gotDestinationElevation && everGotUserElevation) {
+                    text.append("\n Altitude gain: " + (int) round(destinationElevation - userElevation, 0) + "m");
+                }
             }
 
             @Override
@@ -271,13 +287,26 @@ public class Display extends AppCompatActivity implements SensorEventListener
                         }
                     }
                 }
+
                 double e = round(Double.parseDouble(elevation),1);
-                e/=10;
-                elev = e;
+
+                if (gettingDestination){
+                    destinationElevation = e;
+                    gotDestinationElevation = true;
+                }
+                else {
+                    userElevation = e;
+                    everGotUserElevation = true;
+                    gotUserElevation = true;
+                }
+                Log.d(TAG, Double.toString(e));
                 return e;
             }
             catch (MalformedURLException e) {}
             catch (IOException e) {}
+            catch (NumberFormatException e) {
+                Log.e(TAG, "NOT FOUND ELEVATION");
+            }
             return 0.0;
         }
     }
