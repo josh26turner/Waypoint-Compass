@@ -1,9 +1,16 @@
-# Waypoint-Compass
+# Waypoint Compass
 
 The apk can be downloaded on mobile [here](https://github.com/josh26turner/Waypoint-Compass/raw/master/WaypointCompass.apk "APK download")
 
-An app I made for my A level in Computer Science, I plan on fixing any bugs/general improvements.
+This is a navigation app that allows a user to enter a coordinates of any location and it will point you in the direction of that location, tell you the distance, bearing and, if you're connected to the internet, the altitude gain. You can use it for many different scenarios such as cross country navigation, finding a tent in festival after a lot of drinking, etc. 
 
-I have placed the .apk for the app in the top level, usually generated from creating a debug apk.
+Its features include:
+* Saving waypoints
+* Moving onscreen compass
+* Select location with either latitude and longitude or OS map grid reference
+* Tell altitude gain to the destination
 
-This is the first app I have made and there are bound to be many bad techniques, I wrote it about a year ago and I will improve it.
+I plan to add routes as a series of waypoints to the app.
+
+---
+![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_1.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_2.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_3.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_4.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_5.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_6.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_7.jpg) 
