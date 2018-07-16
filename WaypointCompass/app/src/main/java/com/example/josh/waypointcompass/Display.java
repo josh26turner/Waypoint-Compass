@@ -54,8 +54,8 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
     private double userElevation = 0;
     private double destinationElevation = 0;
-    private boolean gotUserElevation = false;
     private boolean everGotUserElevation = false;
+    private boolean finishedGettingUserElevation = false;
     private boolean gotDestinationElevation = false;
     private boolean gettingDestination = true;
 
@@ -84,7 +84,12 @@ public class Display extends AppCompatActivity implements SensorEventListener
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (!(networkInfo!=null&&networkInfo.isConnected())) Toast.makeText(Display.this, "No connection available", Toast.LENGTH_LONG).show();
+        else {
+            gettingDestination = true;
+            new altitudeFinder().execute(coord[0], coord[1]);
+        }
 
         listener = new LocationListener() {
             @Override
@@ -103,14 +108,8 @@ public class Display extends AppCompatActivity implements SensorEventListener
                 text.setText("Distance: " + distance + "km\n Bearing: " +(int) bearing+"°");
 
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                if (!(networkInfo!=null&&networkInfo.isConnected())) Toast.makeText(Display.this, "No connection available", Toast.LENGTH_LONG).show();
-                else {
-                    if (!gotDestinationElevation) {
-                        gettingDestination = true;
-                        new altitudeFinder().execute(coord[0], coord[1]);
-                    }
-
-                    if (gotDestinationElevation && !gotUserElevation) {
+                if ((networkInfo!=null&&networkInfo.isConnected())) {
+                    if (gotDestinationElevation && !finishedGettingUserElevation) {
                         gettingDestination = false;
                         new altitudeFinder().execute(location.getLatitude(),location.getLongitude());
                     }
@@ -266,6 +265,8 @@ public class Display extends AppCompatActivity implements SensorEventListener
     {
         @Override
         protected Double doInBackground(Double... doubles) {
+            if (!gettingDestination) finishedGettingUserElevation = true;
+
             String elevation="";
 
             try
@@ -296,8 +297,8 @@ public class Display extends AppCompatActivity implements SensorEventListener
                 }
                 else {
                     userElevation = e;
+                    finishedGettingUserElevation = false;
                     everGotUserElevation = true;
-                    gotUserElevation = true;
                 }
                 Log.d(TAG, Double.toString(e));
                 return e;
