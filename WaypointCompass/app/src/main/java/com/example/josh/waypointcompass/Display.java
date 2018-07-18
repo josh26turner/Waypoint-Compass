@@ -211,21 +211,21 @@ public class Display extends AppCompatActivity implements SensorEventListener
         double dx = x2 - x1;
         double y = Math.sin(dx)*Math.cos(y2);
         double x = Math.cos(y1)*Math.sin(y2)-Math.sin(y1)*Math.cos(y2)*Math.cos(dx);
-        double brng;
-        if (Math.toDegrees(y2) == 90) brng = 0;
-        else if (Math.toDegrees(y2) == -90) brng = 180;
+        double bearing;
+        if (Math.toDegrees(y2) == 90) bearing = 0;
+        else if (Math.toDegrees(y2) == -90) bearing = 180;
         else if (y2>y1)
         {
-            if (x2>x1) brng = Math.toDegrees(Math.atan(y/x));
-            else brng = 360 + Math.toDegrees(Math.atan(y/x));
+            if (x2>x1) bearing = Math.toDegrees(Math.atan(y/x));
+            else bearing = 360 + Math.toDegrees(Math.atan(y/x));
         }
-        else if (y2<y1) brng = 180 + Math.toDegrees(Math.atan(y/x));
+        else if (y2<y1) bearing = Math.toDegrees(Math.atan(y/x));
         else//y2==y1
         {
-            if (x2==x1) brng = 0;
-            else brng = 360+Math.toDegrees(Math.atan(y/x));
+            if (x2==x1) bearing = 0;
+            else bearing = 360+Math.toDegrees(Math.atan(y/x));
         }
-        return (int) Math.round(brng)%360;
+        return (int) Math.round(bearing)%360;
     }
 
     //Inputs: GPS long, GPS lat, WP long and WP lat
