@@ -211,9 +211,22 @@ public class Display extends AppCompatActivity implements SensorEventListener
         double dx = x2 - x1;
         double y = Math.sin(dx)*Math.cos(y2);
         double x = Math.cos(y1)*Math.sin(y2) - Math.sin(y1)*Math.cos(y2)*Math.cos(dx);
+        double bearing;
 
-        double bearing = Math.toDegrees(Math.atan(y/x));
-        if (y2 < 0) bearing -= 180;
+        if (y > 0) {
+            if (x > 0) bearing = Math.toDegrees(Math.atan(y / x));
+            else if (x > 0) bearing = 180 - Math.toDegrees(Math.atan(-y/x));
+            else bearing = (180 + Math.toDegrees(Math.atan(y/x))) % 180;
+        }
+        else if (y < 0){
+            if (x > 0) bearing = -Math.toDegrees(Math.atan(-y/x));
+            else if (x < 0) bearing = Math.toDegrees(Math.atan(y/x))-180;
+            else bearing = 270;
+        }
+        else {
+            if (x >= 0) bearing = 0;
+            else bearing = 180;
+        }
 
         return (int) (Math.round(bearing)+360)%360;
     }
