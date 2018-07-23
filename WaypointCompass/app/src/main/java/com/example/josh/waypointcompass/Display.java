@@ -202,7 +202,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
 ///////////Compass end///////////
 
     //inputs: GPS lat, GPS long, WayPoint lat and WayPoint long
-    public int findBearingTo(double y1, double x1, double y2, double x2)
+    private int findBearingTo(double y1, double x1, double y2, double x2)
     {
         y1 = Math.toRadians(y1);
         x1 = Math.toRadians(x1);
@@ -210,26 +210,16 @@ public class Display extends AppCompatActivity implements SensorEventListener
         x2 = Math.toRadians(x2);
         double dx = x2 - x1;
         double y = Math.sin(dx)*Math.cos(y2);
-        double x = Math.cos(y1)*Math.sin(y2)-Math.sin(y1)*Math.cos(y2)*Math.cos(dx);
-        double bearing;
-        if (Math.toDegrees(y2) == 90) bearing = 0;
-        else if (Math.toDegrees(y2) == -90) bearing = 180;
-        else if (y2>y1)
-        {
-            if (x2>x1) bearing = Math.toDegrees(Math.atan(y/x));
-            else bearing = 360 + Math.toDegrees(Math.atan(y/x));
-        }
-        else if (y2<y1) bearing = Math.toDegrees(Math.atan(y/x));
-        else//y2==y1
-        {
-            if (x2==x1) bearing = 0;
-            else bearing = 360+Math.toDegrees(Math.atan(y/x));
-        }
-        return (int) Math.round(bearing)%360;
+        double x = Math.cos(y1)*Math.sin(y2) - Math.sin(y1)*Math.cos(y2)*Math.cos(dx);
+
+        double bearing = Math.toDegrees(Math.atan(y/x));
+        if (y2 < 0) bearing -= 180;
+
+        return (int) (Math.round(bearing)+360)%360;
     }
 
     //Inputs: GPS long, GPS lat, WP long and WP lat
-    public double findDistanceTo(double a1, double b1, double a2, double b2) {
+    private double findDistanceTo(double a1, double b1, double a2, double b2) {
         double r = 6371.0;//earth's radius
 
         a1 = Math.toRadians(a1);//all geometrical calculations require the angles in radians
@@ -254,7 +244,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
         else distance = round(distance,0);
         return distance;
     }
-    public double round (double num, int dp)
+    private double round (double num, int dp)
     {
         num = num*Math.pow(10, dp);
         num = Math.round(num);
