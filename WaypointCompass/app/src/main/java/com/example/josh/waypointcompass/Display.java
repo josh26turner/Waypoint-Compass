@@ -159,6 +159,11 @@ public class Display extends AppCompatActivity implements SensorEventListener
         }
     }
 
+    public void onBackPressed(){
+        locationManager.removeUpdates(listener);
+        finish();
+    }
+
 ///////////Compass///////////
     @Override
     protected void onResume() {

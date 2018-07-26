@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -47,11 +48,23 @@ public class dbListing extends AppCompatActivity {
 
             final int finalI = i;
 
-            TextView textView = new TextView(this);
-            textView.setTextColor(Color.BLACK);
-            textView.setTextSize(24);
-            textView.setText(wayPointList.get(i).name);
-            row.addView(textView);
+            final Button textButton = new Button(this);
+            textButton.setTextColor(Color.BLACK);
+            textButton.setTextSize(24);
+            textButton.setText(wayPointList.get(i).name);
+            textButton.setAllCaps(false);
+            textButton.setBackground(null);
+            textButton.setGravity(Gravity.LEFT);
+            textButton.setTextSize(18);
+            textButton.setOnClickListener(new Button.OnClickListener(){
+                public void onClick(View v){
+                    updateWP(wayPointList.get(finalI));
+                }
+            });
+            textButton.setMaxWidth(600);
+            textButton.setMaxHeight(Math.round(textButton.getTextSize()));
+            row.addView(textButton);
+
 
             final ImageButton update = new ImageButton(this);
             update.setImageResource(R.drawable.ic_update);
