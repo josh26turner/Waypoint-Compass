@@ -10,7 +10,8 @@ Its features include:
 * Select location with either latitude and longitude or OS map grid reference
 * Tell altitude gain to the destination
 
-I plan to add routes as a series of waypoints to the app.
+~I plan to add routes as a series of waypoints to the app.~
+Adding routes has been put on hold as I have returned to uni.
 
 ---
 ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_1.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_2.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_3.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_4.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_5.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_6.jpg) ![picture alt](https://raw.githubusercontent.com/josh26turner/Waypoint-Compass/master/Screenshots/Screenshot_7.jpg) 
