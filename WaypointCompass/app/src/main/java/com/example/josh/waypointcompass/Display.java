@@ -207,7 +207,7 @@ public class Display extends AppCompatActivity implements SensorEventListener
 ///////////Compass end///////////
 
     //inputs: GPS lat, GPS long, WayPoint lat and WayPoint long
-    private int findBearingTo(double y1, double x1, double y2, double x2)
+    int findBearingTo(double y1, double x1, double y2, double x2)
     {
         y1 = Math.toRadians(y1);
         x1 = Math.toRadians(x1);
