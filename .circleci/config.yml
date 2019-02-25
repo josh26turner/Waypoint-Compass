@@ -24,7 +24,6 @@ jobs:
       - run: ls
       - run: ls ~
       - run: pwd
-      - run: cd WaypointCompass
 
       # Download and cache dependencies
       - restore_cache:
