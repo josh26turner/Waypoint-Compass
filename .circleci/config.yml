@@ -18,11 +18,12 @@ jobs:
       TERM: dumb
 
     steps:
+      - checkout
+
       - run: ls
       - run: ls ~
       - run: pwd
       - run: cd WaypointCompass
-      - checkout
 
       # Download and cache dependencies
       - restore_cache:
