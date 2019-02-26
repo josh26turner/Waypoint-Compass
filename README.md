@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/josh26turner/UoB-Library-App.svg?style=svg)](https://circleci.com/gh/josh26turner/UoB-Library-App)
+[![CircleCI](https://circleci.com/gh/josh26turner/Waypoint-Compass.svg?style=svg)](https://circleci.com/gh/josh26turner/UoB-Library-App)
 
 # Waypoint Compass
 
