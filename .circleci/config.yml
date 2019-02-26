@@ -36,6 +36,7 @@ jobs:
           
   build-apk:
     working_directory: ~/code/WaypointCompass
+    
     - run: ls
 
     docker:
