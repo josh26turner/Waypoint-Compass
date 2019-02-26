@@ -2,7 +2,7 @@
 
 # Waypoint Compass
 
-This is a navigation app that allows a user to enter a coordinates of any location and it will point you in the direction of that location, tell you the distance, bearing and, if you're connected to the internet, the altitude gain. You can use it for many different scenarios such as cross country navigation, finding a tent in festival after a lot of drinking, etc. 
+This is a navigation app that allows a user to enter a coordinates of any location and it will point you in the direction of that location, tell you the distance, bearing and, if you're connected to the internet, the altitude gain. You can use it for many different scenarios such as cross country navigation, finding a tent in festival, etc. 
 
 Its features include:
 * Saving waypoints

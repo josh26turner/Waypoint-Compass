@@ -35,7 +35,7 @@ jobs:
           path: app/build/test-results
           
   build-apk:
-    working_directory: ~/code
+    working_directory: ~/code/WaypointCompass
     docker:
       - image: circleci/android:api-27-alpha
     environment:
