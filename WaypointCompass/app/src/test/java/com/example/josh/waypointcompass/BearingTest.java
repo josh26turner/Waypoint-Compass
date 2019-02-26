@@ -6,7 +6,7 @@ import org.junit.rules.ExpectedException;
 
 public class BearingTest {
 
-  public static void error (int i, int num1, int num2)
+  public void error (int i, int num1, int num2)
   {
     if (num1!=num2){
       System.out.println("Failed at test "+i+" got "+num1+" should have been "+num2+" difference is "+(num2-num1));
@@ -15,7 +15,7 @@ public class BearingTest {
       System.out.println("Test "+i+" passed");
     }
   }
-  
+
   @Test
   public void test(){
     error(1, Display.findBearingTo(0,0,1,0),0);
