@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/josh26turner/UoB-Library-App.svg?style=svg)](https://circleci.com/gh/josh26turner/UoB-Library-App)
+
 # Waypoint Compass
 
 The apk can be downloaded on mobile [here](https://github.com/josh26turner/Waypoint-Compass/raw/master/WaypointCompass.apk "APK download")
