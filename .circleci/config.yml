@@ -79,7 +79,7 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            cat ./workspace/build/outputs/apk/debug/output.json
+            grep -o '[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+' ./workspace/build/outputs/apk/debug/output.json
             VERSION=$(grep -o '[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+' ./workspace/build/outputs/apk/debug/output.json)
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete $VERSION ./workspace/build/outputs/apk/debug/app-debug.apk
 
