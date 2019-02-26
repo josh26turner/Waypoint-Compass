@@ -10,7 +10,7 @@ jobs:
       - checkout:
           path: ~/code
 
-      - run: yes | sdkmanager --licenses
+      - run: yes | sdkmanager --licenses || exit 0
       - run: yes | sdkmanager --update || exit 0
 
       - restore_cache:
