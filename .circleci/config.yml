@@ -9,6 +9,9 @@ jobs:
     steps:
       - checkout:
           path: ~/code
+
+      - run: yes | sdkmanager --licenses && sdkmanager --update
+      
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 #      - run:
