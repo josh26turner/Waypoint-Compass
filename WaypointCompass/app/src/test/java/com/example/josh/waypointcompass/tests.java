@@ -4,13 +4,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class Main {
+public class BearingTest {
 
-  public static void main(String[] args) {
-    test();
-  }
-  
-  private static void error (int i, int num1, int num2)
+  public static void error (int i, int num1, int num2)
   {
     if (num1!=num2){
       System.out.println("Failed at test "+i+" got "+num1+" should have been "+num2+" difference is "+(num2-num1));
@@ -20,7 +16,8 @@ public class Main {
     }
   }
   
-  private static void test(){
+  @Test
+  public void test(){
     error(1, Display.findBearingTo(0,0,1,0),0);
     error(2, Display.findBearingTo(0,0,1,1),45);
     error(3, Display.findBearingTo(0,0,0,1),90);
